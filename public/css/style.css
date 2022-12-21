@@ -393,11 +393,13 @@
     font-size: 14px;
     text-align: center;
 }
-.grid-plan input{
+.grid-plan textarea{
     width: 100%;
     padding: 6px 0;
     margin: 6px 0;
     font-size: 16px;
+    height: 20px;
+    resize: none;
 }
 .notes{
     margin: 20px 0;
@@ -466,6 +468,27 @@
     font-size: 12px;
     text-align: left;
     padding: 60px 0;
+}
+.popup-alt-contain{
+    padding: 25px 0;
+    max-width: 350px;
+    text-align: center;
+    background: #f5f3f2;
+    min-height: 110px;
+    line-height: 20px;
+    font-family: "SegmaSemiBold";
+    color: #786aad;
+}
+.popup-btn{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 18px;
+}
+.popup-btn button{
+    border: 1px solid #786aad;
+    color: #786aad;
+    width: 100px;
+    height: 40px;
 }
 @media (min-width: 576px){
     .wrapper{
