@@ -49,7 +49,8 @@
                                 <span>1.</span>
                                 <p>Share the pre-consultation questionnaire with your patient to fill in.</p>
                             </div>
-                            <a class="download" href="https://www.igain.galderma.com.au/content-resources/168" target="_blank"><img src="img/download.png" />Download PDF Questionnaire</a>
+                            <a class="download" href="https://www.igain.galderma.com.au/content-resources/168"
+                                target="_blank"><img src="img/download.png" />Download PDF Questionnaire</a>
                         </div>
                         <div>
                             <img src="img/search.png" />
@@ -71,7 +72,8 @@
                                 <p>Fill out the Facial Assessment Scale together with your patient. Scroll down to
                                     access the digital FAS.</p>
                             </div>
-                            <a class="download" href="https://www.igain.galderma.com.au/search?keys=patient+assessment" target="_blank"><img src="img/download.png" />Download PDF FAS for offline
+                            <a class="download" href="https://www.igain.galderma.com.au/search?keys=patient+assessment"
+                                target="_blank"><img src="img/download.png" />Download PDF FAS for offline
                                 use</a>
                         </div>
                         <div>
@@ -416,7 +418,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -498,144 +500,129 @@
             });
         }
 
+        var squareSize = 500;
+        var canvas = document.getElementById("myCanvas");
+        canvas.width = squareSize;
+        canvas.height = squareSize;
+        var ctx = canvas.getContext("2d");
+        var dotRadius = 8;
+        var ctxCentreX = canvas.width / 2;
+        var ctxCentreY = canvas.height / 2;
+
         var lines = [];
 
-        var connectedIndex = { 0: { idx: 0, pt: [] }, 1: { idx: 0, pt: [] }, 2: { idx: 0, pt: [] }, 3: { idx: 0, pt: [] }, 4: { idx: 0, pt: [] }, 5: { idx: 0, pt: [] }, 6: { idx: 0, pt: [] }, 7: { idx: 0, pt: [] } };
-        var canvas = document.getElementById("myCanvas");
-        canvas.width = 500;
-        canvas.height = 500;
-        //ctx.fillStyle = "white";
-        //ctx.fillRect(0, 0, canvas.width, canvas.height);
-        var ctx = canvas.getContext("2d");
+        var connectedIndex = {
+            0: {
+                idx: 0,
+                pt: []
+            },
+            1: {
+                idx: 0,
+                pt: []
+            },
+            2: {
+                idx: 0,
+                pt: []
+            },
+            3: {
+                idx: 0,
+                pt: []
+            },
+            4: {
+                idx: 0,
+                pt: []
+            },
+            5: {
+                idx: 0,
+                pt: []
+            },
+            6: {
+                idx: 0,
+                pt: []
+            },
+            7: {
+                idx: 0,
+                pt: []
+            }
+        };
 
-        var r = 10;
+        var pieAngles = [{
+            s: 277,
+            e: 353,
+            c: "#796aad"
+        },
+        {
+            s: 07,
+            e: 83,
+            c: "#998dc3",
+        },
+        {
+            s: 97,
+            e: 128,
+            c: "#ada2d0",
+        },
+        {
+            s: 142,
+            e: 173,
+            c: "#ada2d0",
+        },
+        {
+            s: 187,
+            e: 263,
+            c: "#c1badd",
+        },
+        ];
+
+        var pieSliceRadius = [40, 80, 120, 160];
+        var dotAngles = [295, 335, 25, 65, 113, 158, 205, 245];
+
         drawMyCircle();
 
         function drawMyCircle() {
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            ctx.font = "500 11px Arial";
+            createPie(ctx, ctxCentreX, ctxCentreY, pieAngles, 215, 240, false);
+            createPie(ctx, ctxCentreX, ctxCentreY, pieAngles, 200, 215, true);
+            createPie(ctx, ctxCentreX, ctxCentreY, pieAngles, 40, 200, false);
 
-            var coords = [
-                { s: 275, e: 355 },
-                { s: 05, e: 85 },
-                { s: 95, e: 130 },
-                { s: 145, e: 175 },
-                { s: 185, e: 265 },
-            ]
-
-
-            for (var i = 0; i < coords.length; i++) {
-
-                ctx.beginPath();
-                ctx.arc(250, 250, 250, toRadian(coords[i].s), toRadian(coords[i].e));
-                ctx.fillStyle = "#967bb6";
-                ctx.strokeStyle = "#FFFFFF";
-                ctx.fill();
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.arc(250, 250, 50, toRadian(coords[i].s), toRadian(coords[i].e));
-                ctx.fillStyle = "#967bb6";
-                ctx.strokeStyle = "#FFFFFF";
-                ctx.fill();
-
-                var p1 = getPoint(250, 250, 250, toRadian(coords[i].s));
-                var p2 = getPoint(250, 250, 50, toRadian(coords[i].s));
-
-                var p3 = getPoint(250, 250, 250, toRadian(coords[i].e));
-                var p4 = getPoint(250, 250, 50, toRadian(coords[i].e));
-
-                ctx.moveTo(p1[0], p1[1]);
-                ctx.lineTo(p2[0], p2[1]);
-                ctx.moveTo(p3[0], p3[1]);
-                ctx.lineTo(p4[0], p4[1]);
-                ctx.stroke();
-
-                let region = new Path2D();
-
-                region.moveTo(p1[0], p1[1]);
-                region.lineTo(p2[0], p2[1]);
-
-                region.lineTo(p4[0], p4[1]);
-
-                region.lineTo(p3[0], p3[1]);
-
-                region.lineTo(p1[0], p1[1]);
-                region.closePath();
-
-                ctx.fillStyle = "#967bb6";
-                ctx.strokeStyle = "#FFFFFF";
-                ctx.fill(region);
-
-            }
-
-
-            var dashcoords = [
-                { s: 275, e: 355, r: 100 },
-                { s: 275, e: 355, r: 150 },
-                { s: 275, e: 355, r: 200 },
-                { s: 05, e: 85, r: 100 },
-                { s: 05, e: 85, r: 150 },
-                { s: 05, e: 85, r: 200 },
-                { s: 95, e: 130, r: 100 },
-                { s: 95, e: 130, r: 150 },
-                { s: 95, e: 130, r: 200 },
-                { s: 145, e: 175, r: 100 },
-                { s: 145, e: 175, r: 150 },
-                { s: 145, e: 175, r: 200 },
-                { s: 185, e: 265, r: 100 },
-                { s: 185, e: 265, r: 150 },
-                { s: 185, e: 265, r: 200 }
-            ];
-
-            for (var i = 0; i < dashcoords.length; i++) {
-                ctx.beginPath();
-                ctx.setLineDash([2, 4]);
-                ctx.arc(250, 250, dashcoords[i].r, toRadian(dashcoords[i].s), toRadian(dashcoords[i].e));
-                ctx.strokeStyle = "#f1edf5";
-                ctx.stroke();
-            }
-
-            ctx.setLineDash([0, 0]);
+            createPieSlice(ctx, ctxCentreX, ctxCentreY, pieAngles, pieSliceRadius, "#f1edf5");
 
             ctx.beginPath();
-            ctx.arc(250, 250, 50, 0, 2 * Math.PI);
+            ctx.arc(ctxCentreX, ctxCentreY, 40, 0, 2 * Math.PI);
             ctx.fillStyle = "#FFFFFF";
             ctx.strokeStyle = "#FFFFFF";
             ctx.fill();
             ctx.stroke();
 
-            var dots = [
-                295, 335, 25, 65, 113, 160, 205, 245
-            ]
 
-            var rads = [50, 100, 150, 200];
-
-            for (var i = 0; i < dots.length; i++) {
+            for (var i = 0; i < dotAngles.length; i++) {
                 ctx.beginPath();
-                var point = getPoint(250, 250, 50, toRadian(dots[i]));
-                var end = getPoint(250, 250, 240, toRadian(dots[i]));
+                var point = getPoint(ctxCentreX, ctxCentreY, 40, toRadian(dotAngles[i]));
+                var end = getPoint(ctxCentreX, ctxCentreY, 190, toRadian(dotAngles[i]));
                 drawArrow(ctx, point[0], point[1], end[0], end[1], 1, "#e4ddec")
             }
 
-            for (var i = 0; i < dots.length; i++) {
+            for (var i = 0; i < dotAngles.length; i++) {
                 lines[i] = [];
-                for (var j = 0; j < rads.length; j++) {
+                for (var j = 0; j < pieSliceRadius.length; j++) {
                     ctx.beginPath();
-                    var point = getPoint(250, 250, rads[j], toRadian(dots[i]));
+                    var point = getPoint(ctxCentreX, ctxCentreY, pieSliceRadius[j], toRadian(dotAngles[i]));
                     lines[i].push(point);
-                    ctx.arc(point[0], point[1], 10, 0, 2 * Math.PI);
+                    ctx.arc(point[0], point[1], dotRadius, 0, 2 * Math.PI);
 
-                    var strokeSty = (connectedIndex[i].idx == j && connectedIndex[i].pt.length) ? "#ffffff" : "#FFFFFF";
-                    var fillSty = (connectedIndex[i].idx == j && connectedIndex[i].pt.length) ? "#000" : "#bdacd1";
+                    var fillSty = (connectedIndex[i].idx == j && connectedIndex[i].pt.length) ? "#000000" : "#e0dcee";
 
-                    ctx.strokeStyle = strokeSty;
+                    ctx.strokeStyle = "#FFFFFF";
                     ctx.lineWidth = 2;
                     ctx.fillStyle = fillSty;
                     ctx.fill();
                     ctx.stroke();
-
                 }
             }
+
+            ctx.beginPath();
 
             var moveTo = false;
             var connectedVals = 0;
@@ -656,7 +643,54 @@
                 ctx.lineTo(connectedIndex[0].pt[0], connectedIndex[0].pt[1]);
 
             }
+            ctx.strokeStyle = "#000000";
             ctx.stroke();
+            ctx.strokeStyle = "#FFFFFF";
+            ctx.beginPath();
+
+            circleText(ctx, "Loss of Radiance/Glow", 250, 250, 204, toRadian(282), toRadian(312), true, "#000000");
+            circleText(ctx, "Loss of Firmness", 250, 250, 204, toRadian(327), toRadian(347), true, "#000000");
+            circleText(ctx, "Sagging", 250, 250, 210, toRadian(30), toRadian(40), false, "#000000");
+            circleText(ctx, "Volume loss", 250, 250, 210, toRadian(73), toRadian(88), false, "#000000");
+            circleText(ctx, "Imbalance", 250, 250, 210, toRadian(120), toRadian(135), false, "#000000");
+            circleText(ctx, "Asymmetry", 250, 250, 210, toRadian(165), toRadian(180), false, "#000000");
+            circleText(ctx, "Static lines", 250, 250, 204, toRadian(197), toRadian(213), true, "#000000");
+            circleText(ctx, "Dynamic lines", 250, 250, 204, toRadian(235), toRadian(253), true, "#000000");
+
+            ctx.strokeStyle = "#796aad";
+            circleText(ctx, "Skin Quality", 250, 250, 225, toRadian(305), toRadian(325), true, "#e0dcee");
+            ctx.strokeStyle = "#c1badd";
+            circleText(ctx, "Expression", 250, 250, 225, toRadian(217), toRadian(235), true, "#e0dcee");
+            ctx.strokeStyle = "#998dc3";
+            circleText(ctx, "Facial Shape", 250, 250, 230, toRadian(55), toRadian(75), false, "#e0dcee");
+            ctx.strokeStyle = "#ada2d0";
+            circleText(ctx, "Proportions", 250, 250, 230, toRadian(107), toRadian(122), true, "#e0dcee");
+            ctx.strokeStyle = "#ada2d0";
+            circleText(ctx, "Symmetry", 250, 250, 230, toRadian(150), toRadian(165), true, "#e0dcee");
+            ctx.strokeStyle = "#000000";
+            //ctx.lineWidth = 3;
+            ctx.fillStyle = "#000000";
+            ctx.font = "500 12px Courier New";
+            ctx.fillText("0", 288, 254);
+            ctx.fillText("1", 328, 254);
+            ctx.fillText("2", 368, 254);
+            ctx.fillText("3", 408, 254);
+
+            ctx.fillText("0", 204, 254);
+            ctx.fillText("1", 164, 254);
+            ctx.fillText("2", 124, 254);
+            ctx.fillText("3", 84, 254);
+
+            ctx.fillText("0", 246, 298);
+            ctx.fillText("1", 246, 335);
+            ctx.fillText("2", 246, 375);
+            ctx.fillText("3", 246, 413);
+
+            ctx.fillText("0", 246, 209);
+            ctx.fillText("1", 246, 172);
+            ctx.fillText("2", 246, 132);
+            ctx.fillText("3", 246, 93);
+
         }
 
         canvas.addEventListener("click", function (event) {
@@ -671,7 +705,40 @@
                         if (isPointInPath(event, lines[t][g][0], lines[t][g][1])) {
 
                             if (t == 0) {
-                                connectedIndex = { 0: { idx: 0, pt: [] }, 1: { idx: 0, pt: [] }, 2: { idx: 0, pt: [] }, 3: { idx: 0, pt: [] }, 4: { idx: 0, pt: [] }, 5: { idx: 0, pt: [] }, 6: { idx: 0, pt: [] }, 7: { idx: 0, pt: [] } };
+                                connectedIndex = {
+                                    0: {
+                                        idx: 0,
+                                        pt: []
+                                    },
+                                    1: {
+                                        idx: 0,
+                                        pt: []
+                                    },
+                                    2: {
+                                        idx: 0,
+                                        pt: []
+                                    },
+                                    3: {
+                                        idx: 0,
+                                        pt: []
+                                    },
+                                    4: {
+                                        idx: 0,
+                                        pt: []
+                                    },
+                                    5: {
+                                        idx: 0,
+                                        pt: []
+                                    },
+                                    6: {
+                                        idx: 0,
+                                        pt: []
+                                    },
+                                    7: {
+                                        idx: 0,
+                                        pt: []
+                                    }
+                                };
                             }
 
                             if (t == 0 || connectedIndex[t - 1].pt.length) {
@@ -690,14 +757,73 @@
 
         });
 
+
+        function createPieSlice(ctx, centreX, centreY, pieAngles, sliceRadiusList, strokeColor) {
+            for (var angle of pieAngles) {
+                for (var sliceRadius of sliceRadiusList) {
+                    ctx.beginPath();
+                    ctx.setLineDash([2, 4]);
+                    ctx.arc(centreX, centreY, sliceRadius, toRadian(angle.s), toRadian(angle.e));
+                    ctx.strokeStyle = strokeColor;
+                    ctx.stroke();
+                }
+            }
+            ctx.setLineDash([0, 0]);
+        }
+
+        function createPie(ctx, centreX, centreY, angles, startRadius, endRadius, fillWhite) {
+
+            for (var i = 0; i < angles.length; i++) {
+
+                ctx.beginPath();
+                ctx.arc(centreX, centreY, endRadius, toRadian(angles[i].s), toRadian(angles[i].e));
+                ctx.fillStyle = (fillWhite) ? "#FFFFFF" : angles[i].c;
+                ctx.strokeStyle = "#FFFFFF";
+                ctx.fill();
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(ctxCentreX, ctxCentreY, startRadius, toRadian(angles[i].s), toRadian(angles[i].e));
+
+
+                var p1 = getPoint(ctxCentreX, ctxCentreY, endRadius, toRadian(angles[i].s));
+                var p2 = getPoint(ctxCentreX, ctxCentreY, startRadius, toRadian(angles[i].s));
+
+                var p3 = getPoint(ctxCentreX, ctxCentreY, endRadius, toRadian(angles[i].e));
+                var p4 = getPoint(ctxCentreX, ctxCentreY, startRadius, toRadian(angles[i].e));
+
+                ctx.moveTo(p1[0], p1[1]);
+                ctx.lineTo(p2[0], p2[1]);
+                ctx.moveTo(p3[0], p3[1]);
+                ctx.lineTo(p4[0], p4[1]);
+                ctx.stroke();
+
+                let region = new Path2D();
+
+                region.moveTo(p1[0], p1[1]);
+                region.lineTo(p2[0], p2[1]);
+
+                region.lineTo(p4[0], p4[1]);
+
+                region.lineTo(p3[0], p3[1]);
+
+                region.lineTo(p1[0], p1[1]);
+
+                region.closePath();
+
+                ctx.fillStyle = (fillWhite) ? "#FFFFFF" : angles[i].c;
+                ctx.strokeStyle = "#FFFFFF";
+                ctx.fill(region);
+
+            }
+        }
+
         function isPointInPath(evt, cx, cy) {
 
             var x = evt.pageX - canvas.offsetLeft;
             var y = evt.pageY - canvas.offsetTop;
             if (Math.pow(x - cx, 2) + Math.pow(y - cy, 2) < Math.pow(10, 2)) {
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
         }
@@ -746,6 +872,72 @@
             //draws the paths created above
             ctx.stroke();
             ctx.restore();
+        }
+
+
+        function circleText(ctx, text, x, y, radius, start, end, direction, textColor) {
+            var i, textWidth, pA, pAS, a, aw, wScale, aligned, dir;
+            // save the current textAlign so that it can be restored at end
+            aligned = ctx.textAlign;
+
+            dir = direction ? 1 : -1;
+            // get the angular size of a pixel in radians
+            pAS = 1 / radius;
+
+            // get the width of all the text
+            textWidth = ctx.measureText(text).width;
+
+            // if end is supplied then fit text between start and end
+            if (end !== undefined) {
+                pA = ((end - start) / textWidth) * dir;
+                wScale = (pA / pAS) * dir;
+            } else { // if no end is supplied corret start and end for alignment
+                pA = -pAS * dir;
+                wScale = -1 * dir;
+                switch (aligned) {
+                    case "center": // if centered move around half width
+                        start -= pA * (textWidth / 2);
+                        end = start + pA * textWidth;
+                        break;
+                    case "right":
+                        end = start;
+                        start -= pA * textWidth;
+                        break;
+                    case "left":
+                        end = start + pA * textWidth;
+                }
+            }
+
+            // some code to help me test. Left it here incase someone wants to underline
+            // rmove the following 3 lines if you dont need underline
+            ctx.beginPath();
+            ctx.arc(x, y, radius, end, start, end > start ? true : false);
+            ctx.stroke();
+
+            ctx.textAlign = "center"; // align for rendering
+
+            a = start; // set the start angle
+            for (var i = 0; i < text.length; i += 1) { // for each character
+                // get the angular width of the text
+                aw = ctx.measureText(text[i]).width * pA;
+                var xDx = Math.cos(a + aw / 2); // get the yAxies vector from the center x,y out
+                var xDy = Math.sin(a + aw / 2);
+                if (xDy < 0) { // is the text upside down. If it is flip it
+                    // sets the transform for each character scaling width if needed
+                    ctx.setTransform(-xDy * wScale, xDx * wScale, -xDx, -xDy, xDx * radius + x, xDy * radius + y);
+                } else {
+                    ctx.setTransform(-xDy * wScale, xDx * wScale, xDx, xDy, xDx * radius + x, xDy * radius + y);
+                }
+                // render the character
+                ctx.fillStyle = textColor;
+                ctx.fillText(text[i], 0, 0);
+
+                a += aw;
+
+            }
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.textAlign = aligned;
+
         }
 
     </script>
