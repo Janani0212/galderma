@@ -495,7 +495,45 @@
 .hideMob{
     display: none;
 }
+
+.modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 ) 
+                url('http://i.stack.imgur.com/FhHRx.gif') 
+                50% 50% 
+                no-repeat;
+}
+
+body.loading .modal {
+    overflow: hidden;   
+}
+
+body.loading .modal {
+    display: block;
+}
+
+.facial-notes span, .patient-notes span{
+    display: none;
+    border: 1px solid #fff;
+    background-color: white;
+    padding: 5px;
+    min-height: 54px;
+}
+
+.patient-notes .displayBlock{
+   width: 100%;
+   display: block;
+}
 @media (min-width: 576px){
+	.wrapper{
+        max-width: 540px;
+    }
     .content{
         margin-top: 30px;
         position: absolute;
